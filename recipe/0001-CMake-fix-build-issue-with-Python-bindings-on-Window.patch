@@ -1,0 +1,55 @@
+From 97873369f42dfbfa6351ab4bbec0ed00d039df34 Mon Sep 17 00:00:00 2001
+From: Even Rouault <even.rouault@spatialys.com>
+Date: Wed, 1 Jun 2022 12:16:10 +0200
+Subject: [PATCH 1/4] CMake: fix build issue with Python bindings on Windows
+ (fixes #5831)
+
+---
+ swig/python/CMakeLists.txt | 14 ++++++--------
+ 1 file changed, 6 insertions(+), 8 deletions(-)
+
+diff --git a/swig/python/CMakeLists.txt b/swig/python/CMakeLists.txt
+index dd7dca0825..f0015a9e36 100644
+--- a/swig/python/CMakeLists.txt
++++ b/swig/python/CMakeLists.txt
+@@ -80,7 +80,7 @@ else ()
+       ${CMAKE_CURRENT_BINARY_DIR}/osgeo/gnm.py
+       ${CMAKE_CURRENT_BINARY_DIR}/osgeo/ogr.py
+       ${CMAKE_CURRENT_BINARY_DIR}/osgeo/osr.py)
+-  file(TO_NATIVE_PATH "${CMAKE_CURRENT_BINARY_DIR}/osgeo/" OSGEO_BINARY_DIR)
++  file(TO_NATIVE_PATH "${CMAKE_CURRENT_BINARY_DIR}/osgeo" OSGEO_BINARY_DIR)
+   file(TO_NATIVE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/osgeo/" OSGEO_SOURCE_DIR)
+   if (Python_NumPy_FOUND)
+     list(APPEND GDAL_PYTHON_CSOURCES "${GDAL_PYTHON_CSOURCE_DIR}/gdal_array_wrap.cpp")
+@@ -103,15 +103,14 @@ else ()
+         ${OSGEO_SOURCE_DIR}gdalconst.py ${OSGEO_SOURCE_DIR}gdalnumeric.py ${OSGEO_SOURCE_DIR}ogr.py
+         ${OSGEO_SOURCE_DIR}osr.py ${OSGEO_SOURCE_DIR}gnm.py ${OSGEO_SOURCE_DIR}gdal_array.py ${OSGEO_BINARY_DIR})
+   endif ()
+-  file(TO_NATIVE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/extensions/" GDAL_PYTHON_CSOURCE_SRC_DIR_NATIVE_PATH)
+-  file(TO_NATIVE_PATH "${GDAL_PYTHON_CSOURCE_DIR}/" GDAL_PYTHON_CSOURCE_DIR_NATIVE_PATH)
++  set(GDAL_PYTHON_CSOURCE_SRC_DIR "${CMAKE_CURRENT_SOURCE_DIR}/extensions/")
+   add_custom_command(
+     OUTPUT ${GDAL_PYTHON_CSOURCES}
+     COMMAND
+-      ${CMAKE_COMMAND} -E copy_if_different ${GDAL_PYTHON_CSOURCE_SRC_DIR_NATIVE_PATH}gdal_wrap.cpp
+-      ${GDAL_PYTHON_CSOURCE_SRC_DIR_NATIVE_PATH}gdalconst_wrap.c ${GDAL_PYTHON_CSOURCE_SRC_DIR_NATIVE_PATH}gnm_wrap.cpp
+-      ${GDAL_PYTHON_CSOURCE_SRC_DIR_NATIVE_PATH}ogr_wrap.cpp ${GDAL_PYTHON_CSOURCE_SRC_DIR_NATIVE_PATH}osr_wrap.cpp
+-      ${GDAL_PYTHON_CSOURCE_SRC_DIR_NATIVE_PATH}gdal_array_wrap.cpp ${GDAL_PYTHON_CSOURCE_DIR_NATIVE_PATH}
++      ${CMAKE_COMMAND} -E copy_if_different ${GDAL_PYTHON_CSOURCE_SRC_DIR}gdal_wrap.cpp
++      ${GDAL_PYTHON_CSOURCE_SRC_DIR}gdalconst_wrap.c ${GDAL_PYTHON_CSOURCE_SRC_DIR}gnm_wrap.cpp
++      ${GDAL_PYTHON_CSOURCE_SRC_DIR}ogr_wrap.cpp ${GDAL_PYTHON_CSOURCE_SRC_DIR}osr_wrap.cpp
++      ${GDAL_PYTHON_CSOURCE_SRC_DIR}gdal_array_wrap.cpp ${GDAL_PYTHON_CSOURCE_DIR}
+     DEPENDS ${GDAL_PYTHON_CSOURCES_SRC})
+ endif ()
+ 
+@@ -154,7 +153,6 @@ if (Python_Interpreter_FOUND)
+     set(GNM_ENABLED "False")
+   endif ()
+ 
+-  file(TO_NATIVE_PATH "${GDAL_PYTHON_CSOURCE_DIR}" GDAL_PYTHON_EXT_SOURCE_DIR)
+   if ("${CMAKE_BINARY_DIR}" STREQUAL "${CMAKE_SOURCE_DIR}" AND EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/setup.py)
+     # FIXME: remove this branch when we remove setup.py from source tree
+   elseif (_isMultiConfig)
+-- 
+2.35.1
+

@@ -1,14 +1,14 @@
-set LIBRARY_INC=%PREFIX%\Library\include
-set LIBRARY_LIB=%PREFIX%\Library\lib
+rem set LIBRARY_INC=%PREFIX%\Library\include
+rem set LIBRARY_LIB=%PREFIX%\Library\lib
 
-pushd swig\python
+rem pushd swig\python
 
-%PYTHON% setup.py build_ext ^
-        --include-dirs %LIBRARY_INC% ^
-        --library-dirs %LIBRARY_LIB% ^
-        --gdal-config gdal-config
-%PYTHON% setup.py build_py
-%PYTHON% setup.py build_scripts
-%PYTHON% setup.py install
+rem %PYTHON% setup.py build_ext ^
+rem         --include-dirs %LIBRARY_INC% ^
+rem         --library-dirs %LIBRARY_LIB% ^
+rem         --gdal-config gdal-config
+rem %PYTHON% setup.py build_py
+rem %PYTHON% setup.py build_scripts
+rem %PYTHON% setup.py install
 
-popd
+rem popd

@@ -1,4 +1,6 @@
-make install
+cd build
+
+cmake --build . --target install
 
 # Make sure GDAL_DATA and set and still present in the package.
 # https://github.com/conda/conda-recipes/pull/267

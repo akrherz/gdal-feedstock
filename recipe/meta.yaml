@@ -10,19 +10,28 @@ source:
   patches:
     # disable 12 bit jpeg on Windows as we aren't using internal jpeg
     - disable_jpeg12.patch  # [win]
+    - 0001-CMake-fix-build-issue-with-Python-bindings-on-Window.patch
+    - 0002-Use-cmake-path-instead-of-native-path.patch
+    - 0003-Try-to-prevent-path-escaping-problems.patch
+    - 0004-Try-to-add-vendored-MINIZIP-and-URIPARSER-to-libkml-.patch
 
 build:
-  number: 1
+  number: 2
+  skip_compile_pyc:
+    - "*/share/bash-completion/completions/*.py"
 
 requirements:
   build:
-    - cmake  # [win]
+    - cmake
     - pkg-config >=0.21  # [not win]
-    - make  # [unix]
-    - gnuconfig  # [unix]
+    - make  # [not win]
+    - ninja  # [win]
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
     - sysroot_linux-64 2.17  # [linux64]
+    - python  # [build_platform != target_platform]
+    - cross-python_{{ target_platform }}  # [build_platform != target_platform]
+    - numpy  # [build_platform != target_platform]
   host:
     - blosc
     - cfitsio
@@ -48,13 +57,17 @@ requirements:
     - libuuid  # [linux]
     - libwebp-base
     - libxml2
+    - numpy
     - openjpeg
     - openssl
     - pcre
+    - pip
     - poppler
     - postgresql
     - proj
+    - python
     - sqlite
+    - swig
     - tiledb
     - xerces-c
     - xz
@@ -66,18 +79,25 @@ outputs:
     script: install_lib.sh  # [unix]
     script: install_lib.bat  # [win]
     build:
+      skip_compile_pyc:
+        - "*/share/bash-completion/completions/*.py"
       run_exports:
         # no idea, going with minor pin
         - {{ pin_subpackage('libgdal', max_pin='x.x') }}
     requirements:
       build:
+        - cmake
         # ranlib used at install time
         - {{ compiler('c') }}
         # libstdc++ is needed in requirements/run
         - {{ compiler('cxx') }}
         - pkg-config  # [not win]
         - make  # [unix]
+        - ninja  # [win]
         - sysroot_linux-64 2.17  # [linux64]
+        - python  # [build_platform != target_platform]
+        - cross-python_{{ target_platform }}  # [build_platform != target_platform]
+        - numpy  # [build_platform != target_platform]
       host:
         - blosc
         - cfitsio
@@ -103,12 +123,15 @@ outputs:
         - libuuid  # [linux]
         - libwebp-base
         - libxml2
+        - numpy
         - openjpeg
         - openssl
         - pcre
+        - pip
         - poppler
         - postgresql
         - proj
+        - python
         - sqlite
         - tiledb
         - xerces-c
@@ -144,6 +167,9 @@ outputs:
   - name: gdal
     script: install_python.sh  # [unix]
     script: install_python.bat  # [win]
+    build:
+      skip_compile_pyc:
+        - "*/share/bash-completion/completions/*.py"
     requirements:
       build:
         - {{ compiler('c') }}

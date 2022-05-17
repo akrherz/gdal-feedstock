@@ -9,6 +9,20 @@ from osgeo import osr
 # See https://github.com/conda-forge/gdal-feedstock/issues/131
 from osgeo.gdal_array import *
 
+
+def test_drivers_from_module(module, drivers):
+    print("Looking for drivers")
+    print(drivers)
+    manager = getattr(module, "GetDriverByName")
+    missing_drivers = []
+    for driver_name in drivers:
+        driver = manager(driver_name)
+        if driver is None:
+            print(f"Missing driver: {driver_name}")
+            missing_drivers.append(driver_name)
+    assert len(missing_drivers) == 0
+
+
 drivers = [
     "netCDF",
     "HDF4",
@@ -26,14 +40,18 @@ drivers = [
     "WebP",
 ]
 
-for driver in drivers:
-    print(driver)
-    assert gdal.GetDriverByName(driver)
+test_drivers_from_module(gdal, drivers)
 
-drivers = ["GML", "XLS", "KML", "LIBKML", "SQLite", "PostgreSQL"]
-for driver in drivers:
-    print(driver)
-    assert ogr.GetDriverByName(driver)
+drivers = [
+    "GML",
+    "XLS",
+    "KML",
+    "LIBKML",
+    "SQLite",
+    "PostgreSQL",
+]
+
+test_drivers_from_module(ogr, drivers)
 
 
 def has_geos():

@@ -1,0 +1,63 @@
+From 3b1c9a5e7eaa3633226d97ede7bb67c6ba4fccab Mon Sep 17 00:00:00 2001
+From: Klaus Zimmermann <klaus.zimmermann@smhi.se>
+Date: Thu, 2 Jun 2022 13:42:36 +0200
+Subject: [PATCH 3/4] Try to prevent path escaping problems
+
+---
+ swig/python/CMakeLists.txt          | 9 +++++----
+ swig/python/install_python.cmake.in | 2 +-
+ 2 files changed, 6 insertions(+), 5 deletions(-)
+
+diff --git a/swig/python/CMakeLists.txt b/swig/python/CMakeLists.txt
+index 0e1122d694..1fc5ad0999 100644
+--- a/swig/python/CMakeLists.txt
++++ b/swig/python/CMakeLists.txt
+@@ -207,18 +207,19 @@ if (Python_Interpreter_FOUND)
+     endforeach ()
+   endif ()
+ 
++  cmake_path(CONVERT "${Python_EXECUTABLE}" TO_CMAKE_PATH_LIST Python_EXECUTABLE_CMAKE)
+   if (ONLY_GENERATE_FOR_NON_DEBUG)
+     set(BUILD_EXT_FILENAME ${CMAKE_CURRENT_BINARY_DIR}/build_ext_$<CONFIG>.cmake)
+     file(
+       GENERATE
+       OUTPUT ${BUILD_EXT_FILENAME}
+       CONTENT
+-        "execute_process(COMMAND $<IF:$<NOT:$<CONFIG:Debug>>,${Python_EXECUTABLE} ${SETUP_PY_FILENAME} build_ext --inplace,${CMAKE_COMMAND} -E echo \"setup.py build_ext only run in configuration != Debug\">)\n${BUILD_EXT_EXTRA_CONTENT}"
++        "execute_process(COMMAND $<IF:$<NOT:$<CONFIG:Debug>>,${Python_EXECUTABLE_CMAKE} ${SETUP_PY_FILENAME} build_ext --inplace,${CMAKE_COMMAND} -E echo \"setup.py build_ext only run in configuration != Debug\">)\n${BUILD_EXT_EXTRA_CONTENT}"
+       )
+   else ()
+     set(BUILD_EXT_FILENAME ${CMAKE_CURRENT_BINARY_DIR}/build_ext.cmake)
+     file(WRITE ${BUILD_EXT_FILENAME}
+-         "execute_process(COMMAND ${Python_EXECUTABLE} ${SETUP_PY_FILENAME} build_ext --inplace)\n${BUILD_EXT_EXTRA_CONTENT}")
++         "execute_process(COMMAND ${Python_EXECUTABLE_CMAKE} ${SETUP_PY_FILENAME} build_ext --inplace)\n${BUILD_EXT_EXTRA_CONTENT}")
+   endif ()
+   add_custom_command(
+     OUTPUT ${PY_SO_LIST}
+@@ -235,11 +236,11 @@ if (Python_Interpreter_FOUND)
+       GENERATE
+       OUTPUT ${BUILD_BDIST_WHEEL_FILENAME}
+       CONTENT
+-        "execute_process(COMMAND $<IF:$<NOT:$<CONFIG:Debug>>,${Python_EXECUTABLE} ${SETUP_PY_FILENAME} bdist_wheel,${CMAKE_COMMAND} -E echo \"setup.py bdist_wheel only run in configuration != Debug\">)"
++        "execute_process(COMMAND $<IF:$<NOT:$<CONFIG:Debug>>,${Python_EXECUTABLE_CMAKE} ${SETUP_PY_FILENAME} bdist_wheel,${CMAKE_COMMAND} -E echo \"setup.py bdist_wheel only run in configuration != Debug\">)"
+       )
+   else ()
+     set(BUILD_BDIST_WHEEL_FILENAME ${CMAKE_CURRENT_BINARY_DIR}/build_bdist_wheel.cmake)
+-    file(WRITE ${BUILD_BDIST_WHEEL_FILENAME} "execute_process(COMMAND ${Python_EXECUTABLE} ${SETUP_PY_FILENAME} bdist_wheel)\n")
++    file(WRITE ${BUILD_BDIST_WHEEL_FILENAME} "execute_process(COMMAND ${Python_EXECUTABLE_CMAKE} ${SETUP_PY_FILENAME} bdist_wheel)\n")
+   endif ()
+   add_custom_target(
+     python_wheel
+diff --git a/swig/python/install_python.cmake.in b/swig/python/install_python.cmake.in
+index b0d792ff84..a91d6812db 100644
+--- a/swig/python/install_python.cmake.in
++++ b/swig/python/install_python.cmake.in
+@@ -4,4 +4,4 @@ endif()
+ if(NOT "@SETUPTOOLS_USE_DISTUTILS@x" STREQUAL "x")
+   set(ENV{SETUPTOOLS_USE_DISTUTILS} @SETUPTOOLS_USE_DISTUTILS@)
+ endif()
+-execute_process(COMMAND @Python_EXECUTABLE@ @SETUP_PY_FILENAME@ install ${ROOT_DIR_ARG} @INSTALL_ARGS@)
++execute_process(COMMAND @Python_EXECUTABLE_CMAKE@ @SETUP_PY_FILENAME@ install ${ROOT_DIR_ARG} @INSTALL_ARGS@)
+-- 
+2.35.1
+

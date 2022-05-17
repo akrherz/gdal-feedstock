@@ -1,15 +1,8 @@
-set LIBRARY_INC=%PREFIX%\Library\include
-set LIBRARY_LIB=%PREFIX%\Library\lib
-set LIBRARY_BIN=%PREFIX%\Library\bin
-set LIBRARY_PREFIX=%PREFIX%\Library
-
-call "%RECIPE_DIR%\set_bld_opts.bat"
-
-nmake /f makefile.vc devinstall %BLD_OPTS%
+cd build
 if errorlevel 1 exit 1
 
-copy *.lib %LIBRARY_LIB%\ || exit 1
-if errorlevel 1 exit 1
+cmake --build . --config Release --target install
+if errorlevel 1 exit /b 1
 
 set ACTIVATE_DIR=%PREFIX%\etc\conda\activate.d
 set DEACTIVATE_DIR=%PREFIX%\etc\conda\deactivate.d

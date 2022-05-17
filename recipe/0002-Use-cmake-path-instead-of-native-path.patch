@@ -1,0 +1,42 @@
+From e33ab96cd830f827fabaadde8da07cf554b12904 Mon Sep 17 00:00:00 2001
+From: Klaus Zimmermann <klaus.zimmermann@smhi.se>
+Date: Wed, 1 Jun 2022 15:24:31 +0200
+Subject: [PATCH 2/4] Use cmake path instead of native path
+
+---
+ swig/python/CMakeLists.txt | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
+
+diff --git a/swig/python/CMakeLists.txt b/swig/python/CMakeLists.txt
+index f0015a9e36..0e1122d694 100644
+--- a/swig/python/CMakeLists.txt
++++ b/swig/python/CMakeLists.txt
+@@ -264,10 +264,6 @@ if (Python_Interpreter_FOUND)
+     endif ()
+     set(INSTALL_ARGS "${INSTALL_ARGS} \"--prefix=${NATIVE_GDAL_PYTHON_INSTALL_PREFIX}\"")
+   elseif (CMAKE_INSTALL_PREFIX)
+-    file(TO_NATIVE_PATH "${CMAKE_INSTALL_PREFIX}" NATIVE_CMAKE_INSTALL_PREFIX)
+-    if (WIN32)
+-      string(REPLACE "\\" "\\\\" NATIVE_CMAKE_INSTALL_PREFIX "${NATIVE_CMAKE_INSTALL_PREFIX}")
+-    endif ()
+     if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+       file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/is_std_unix_layout.py
+            "import sys;print(\"FALSE\" if \"framework\" in sys.prefix.lower() else \"TRUE\")\n")
+@@ -276,12 +272,12 @@ if (Python_Interpreter_FOUND)
+         OUTPUT_VARIABLE STD_UNIX_LAYOUT
+         OUTPUT_STRIP_TRAILING_WHITESPACE)
+       if ("${STD_UNIX_LAYOUT}" STREQUAL "TRUE")
+-        set(INSTALL_ARGS "${INSTALL_ARGS} \"--prefix=${NATIVE_CMAKE_INSTALL_PREFIX}\"")
++        set(INSTALL_ARGS "${INSTALL_ARGS} \"--prefix=${CMAKE_INSTALL_PREFIX}\"")
+       elseif (DEFINED GDAL_PYTHON_INSTALL_LIB)
+         set(INSTALL_ARGS "${INSTALL_ARGS} \"--install-lib=${GDAL_PYTHON_INSTALL_LIB}\"")
+       endif ()
+     else ()
+-      set(INSTALL_ARGS "${INSTALL_ARGS} \"--prefix=${NATIVE_CMAKE_INSTALL_PREFIX}\"")
++      set(INSTALL_ARGS "${INSTALL_ARGS} \"--prefix=${CMAKE_INSTALL_PREFIX}\"")
+     endif ()
+   endif ()
+ 
+-- 
+2.35.1
+
