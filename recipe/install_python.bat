@@ -1,7 +1,7 @@
 set LIBRARY_INC=%PREFIX%\Library\include
 set LIBRARY_LIB=%PREFIX%\Library\lib
 
-pushd swig\python
+pushd build\swig\python
 
 %PYTHON% setup.py build_ext ^
         --include-dirs %LIBRARY_INC% ^

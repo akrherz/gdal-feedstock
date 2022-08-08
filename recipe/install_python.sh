@@ -1,6 +1,6 @@
 #!/bin/bash
 
-pushd swig/python
+pushd build/swig/python
 
 $PYTHON -m pip install --no-deps --ignore-installed . \
         --global-option build_ext \
