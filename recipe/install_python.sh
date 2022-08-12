@@ -17,7 +17,7 @@ cmake -G "Unix Makefiles" \
       ${SRC_DIR} || (cat CMakeFiles/CMakeError.log;false)
 
 
-pushd swig/python
+pushd ${SRC_DIR}/swig/python
 
 $PYTHON -m pip install --no-deps --ignore-installed . \
         --global-option build_ext \
