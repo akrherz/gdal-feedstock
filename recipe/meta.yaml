@@ -14,7 +14,6 @@ source:
     - 0002-Use-cmake-path-instead-of-native-path.patch
     - 0003-Try-to-prevent-path-escaping-problems.patch
     - 0004-Try-to-add-vendored-MINIZIP-and-URIPARSER-to-libkml-.patch
-    - 0005-fix-setup-gdal-libname.patch
 
 build:
   number: 2
