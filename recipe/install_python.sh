@@ -1,7 +1,8 @@
 #!/bin/bash
 
 # now re-configure with BUILD_PYTHON_BINDINGS:BOOL=ON
-cd build
+mkdir pybuild
+cd pybuild
 cmake -G "Unix Makefiles" \
       ${CMAKE_ARGS} \
       -DCMAKE_BUILD_TYPE=Release \
@@ -13,7 +14,7 @@ cmake -G "Unix Makefiles" \
       -DBUILD_PYTHON_BINDINGS:BOOL=ON \
       -DBUILD_JAVA_BINDINGS:BOOL=OFF \
       -DBUILD_CSHARP_BINDINGS:BOOL=OFF \
-      ${SRC_DIR}
+      ${SRC_DIR} || (cat CMakeFiles/CMakeError.log;false)
 
 
 pushd swig/python
