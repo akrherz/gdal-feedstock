@@ -35,3 +35,8 @@ if errorlevel 1 exit 1
 :: Check wildcard expansion (assumes only one .shp file in directory). See https://github.com/conda-forge/gdal-feedstock/issues/558
 ogrinfo *.shp
 if errorlevel 1 exit 1
+
+:: check all drivers
+gdal_translate --formats
+if errorlevel 1 exit 1
+

@@ -51,3 +51,6 @@ gdalinfo --formats
 
 test -f ${PREFIX}/lib/libgdal${SHLIB_EXT}
 test ! -f ${PREFIX}/lib/libgdal.a
+
+# check all drivers
+gdal_translate --formats

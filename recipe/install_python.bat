@@ -33,5 +33,5 @@ if errorlevel 1 exit /b 1
 
 cd %SRC_DIR%\swig\python
 if errorlevel 1 exit /b 1
-%PYTHON% %SRC_DIR%\pybuild\swig\python\setup.py install
+%PYTHON% %SRC_DIR%\pybuild\swig\python\setup.py install --no-deps
 if errorlevel 1 exit /b 1
