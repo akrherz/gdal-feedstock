@@ -19,6 +19,10 @@ build:
   number: 2
   skip_compile_pyc:
     - "*/share/bash-completion/completions/*.py"
+  # Osx-arm64 isn't working because tiledb 2.10.* (global pin)
+  # is not available, but 2.11.* is, so once the global pin is
+  # updated this should be revisited.
+  skip: true  # [arm64]
 
 requirements:
   build:
