@@ -19,6 +19,7 @@ build:
   number: 2
   skip_compile_pyc:
     - "*/share/bash-completion/completions/*.py"
+    - "share/bash-completion/completions/*.py"
 
 requirements:
   build:
@@ -81,6 +82,7 @@ outputs:
     build:
       skip_compile_pyc:
         - "*/share/bash-completion/completions/*.py"
+        - "share/bash-completion/completions/*.py"
       run_exports:
         # no idea, going with minor pin
         - {{ pin_subpackage('libgdal', max_pin='x.x') }}
