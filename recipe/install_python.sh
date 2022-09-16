@@ -1,8 +1,10 @@
 #!/bin/bash
 
 # now re-configure with BUILD_PYTHON_BINDINGS:BOOL=ON
-mkdir pybuild
-cd pybuild
+
+mkdir pybuild_${PKG_HASH}
+cd pybuild_${PKG_HASH}
+
 cmake -G "Unix Makefiles" \
       ${CMAKE_ARGS} \
       -DCMAKE_BUILD_TYPE=Release \
