@@ -30,9 +30,6 @@ requirements:
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
     - sysroot_linux-64 2.17  # [linux64]
-    - python  # [build_platform != target_platform]
-    - cross-python_{{ target_platform }}  # [build_platform != target_platform]
-    - numpy  # [build_platform != target_platform]
   host:
     - blosc
     - cfitsio
@@ -58,7 +55,6 @@ requirements:
     - libuuid  # [linux]
     - libwebp-base
     - libxml2
-    - numpy
     - openjpeg
     - openssl
     - pcre
@@ -66,7 +62,6 @@ requirements:
     - poppler
     - postgresql
     - proj
-    - python
     - sqlite
     - swig
     - tiledb
@@ -80,9 +75,6 @@ outputs:
     script: install_lib.sh  # [unix]
     script: install_lib.bat  # [win]
     build:
-      skip_compile_pyc:
-        - "*/share/bash-completion/completions/*.py"
-        - "share/bash-completion/completions/*.py"
       run_exports:
         # no idea, going with minor pin
         - {{ pin_subpackage('libgdal', max_pin='x.x') }}
@@ -96,10 +88,6 @@ outputs:
         - pkg-config  # [not win]
         - make  # [unix]
         - ninja  # [win]
-        - sysroot_linux-64 2.17  # [linux64]
-        - python  # [build_platform != target_platform]
-        - cross-python_{{ target_platform }}  # [build_platform != target_platform]
-        - numpy  # [build_platform != target_platform]
       host:
         - blosc
         - cfitsio
@@ -125,7 +113,6 @@ outputs:
         - libuuid  # [linux]
         - libwebp-base
         - libxml2
-        - numpy
         - openjpeg
         - openssl
         - pcre
@@ -133,7 +120,6 @@ outputs:
         - poppler
         - postgresql
         - proj
-        - python
         - sqlite
         - tiledb
         - xerces-c
@@ -171,7 +157,7 @@ outputs:
     script: install_python.bat  # [win]
     build:
       skip_compile_pyc:
-        - "*/share/bash-completion/completions/*.py"
+        - "share/bash-completion/completions/*.py"
     requirements:
       build:
         - {{ compiler('c') }}
