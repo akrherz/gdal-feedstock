@@ -1,7 +1,7 @@
 
-mkdir pybuild
+mkdir pybuild_%PKG_HASH%
 if errorlevel 1 exit 1
-cd pybuild
+cd pybuild_%PKG_HASH%
 if errorlevel 1 exit 1
 
 if  %vc% LEQ 9 set MSVC_VER=1500
