@@ -58,7 +58,6 @@ requirements:
     - openjpeg
     - openssl
     - pcre
-    - pip
     - poppler
     - postgresql
     - proj
@@ -117,7 +116,6 @@ outputs:
         - openjpeg
         - openssl
         - pcre
-        - pip
         - poppler
         - postgresql
         - proj
