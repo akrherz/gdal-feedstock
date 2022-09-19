@@ -157,7 +157,6 @@ outputs:
     build:
       skip_compile_pyc:
         - "share/bash-completion/completions/*.py"
-        - "*"  # [arm64]
     requirements:
       build:
         - {{ compiler('c') }}
