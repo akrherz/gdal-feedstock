@@ -26,6 +26,7 @@ cmake -G "Ninja" ^
       -DKEA_INCLUDE_DIR:PATH="%LIBRARY_INC%" ^
       -DKEA_LIBRARY:PATH="%LIBRARY_LIB%\libkea.lib" ^
       -DGDAL_USE_MYSQL:BOOL=OFF ^
+      -DGDAL_USE_ODBC:BOOL=OFF ^
       "%SRC_DIR%"
 
 if errorlevel 1 exit /b 1
