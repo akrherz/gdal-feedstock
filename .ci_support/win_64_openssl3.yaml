@@ -70,6 +70,8 @@ target_platform:
 - win-64
 tiledb:
 - '2.11'
+vc:
+- '14'
 xerces_c:
 - '3.2'
 xz:
