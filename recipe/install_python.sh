@@ -23,6 +23,12 @@ cmake -G "Unix Makefiles" \
 
 cd swig/python
 
+cat >pyproject.toml <<EOF
+[build-system]
+requires = ["setuptools>=40.8.0", "wheel"]
+build-backend = "setuptools.build_meta"
+EOF
+
 $PYTHON -m pip install --no-deps --ignore-installed . \
         --global-option build_ext \
         --global-option "-I$INCLUDE_PATH" \
