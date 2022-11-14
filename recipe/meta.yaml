@@ -10,7 +10,6 @@ source:
   patches:
     # disable 12 bit jpeg on Windows as we aren't using internal jpeg
     - disable_jpeg12.patch  # [win]
-    - 0001-CMake-fix-build-issue-with-Python-bindings-on-Window.patch
     - 0002-Use-cmake-path-instead-of-native-path.patch
     - 0003-Try-to-prevent-path-escaping-problems.patch
     - 0004-Try-to-add-vendored-MINIZIP-and-URIPARSER-to-libkml-.patch
