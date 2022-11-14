@@ -9,7 +9,6 @@ source:
   sha256: f7afa4aa8d32d0799e011a9f573c6a67e9471f78e70d3d0d0b45b45c8c0c1a94
   patches:
     - 0002-Use-cmake-path-instead-of-native-path.patch
-    - 0004-Try-to-add-vendored-MINIZIP-and-URIPARSER-to-libkml-.patch
 
 build:
   number: 0
