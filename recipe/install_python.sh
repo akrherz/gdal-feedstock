@@ -5,7 +5,7 @@ set -xe
 # now re-configure with BUILD_PYTHON_BINDINGS:BOOL=ON
 
 mkdir pybuild_${PKG_HASH}
-cd pybuild_${PKG_HASH}
+pushd pybuild_${PKG_HASH}
 
 cmake -G "Unix Makefiles" \
       ${CMAKE_ARGS} \
@@ -21,7 +21,7 @@ cmake -G "Unix Makefiles" \
       ${SRC_DIR} || (cat CMakeFiles/CMakeError.log;false)
 
 
-pushd ${SRC_DIR}/swig/python
+cd swig/python
 
 $PYTHON -m pip install --no-deps --ignore-installed . \
         --global-option build_ext \
