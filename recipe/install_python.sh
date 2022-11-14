@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -xe
+
 # now re-configure with BUILD_PYTHON_BINDINGS:BOOL=ON
 
 mkdir pybuild_${PKG_HASH}
