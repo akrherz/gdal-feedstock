@@ -8,8 +8,6 @@ source:
   url: http://download.osgeo.org/gdal/{{ version }}/gdal-{{ version }}.tar.xz
   sha256: f7afa4aa8d32d0799e011a9f573c6a67e9471f78e70d3d0d0b45b45c8c0c1a94
   patches:
-    # disable 12 bit jpeg on Windows as we aren't using internal jpeg
-    - disable_jpeg12.patch  # [win]
     - 0002-Use-cmake-path-instead-of-native-path.patch
     - 0003-Try-to-prevent-path-escaping-problems.patch
     - 0004-Try-to-add-vendored-MINIZIP-and-URIPARSER-to-libkml-.patch
