@@ -30,8 +30,8 @@ build-backend = "setuptools.build_meta:__legacy__"
 EOF
 
 $PYTHON -m pip install --no-deps --ignore-installed . \
-        --config_settings='--global-option build_ext \
-        --global-option "-I$INCLUDE_PATH" \
-        --global-option "-L$LIBRARY_PATH"'
+        --config-settings="--global-option=build_ext" \
+        --config-settings="--global-option=\"-I$INCLUDE_PATH\"" \
+        --config-settings="--global-option=\"-L$LIBRARY_PATH\""
 
 popd
