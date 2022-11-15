@@ -4,6 +4,9 @@ set -xe
 
 # now re-configure with BUILD_PYTHON_BINDINGS:BOOL=ON
 
+# suggested addition per conda-forge/gdal-feedstock/651
+export CXXFLAGS="${CXXFLAGS} -std=c++17 -D_LIBCPP_DISABLE_AVAILABILITY"
+
 mkdir pybuild_${PKG_HASH}
 pushd pybuild_${PKG_HASH}
 
