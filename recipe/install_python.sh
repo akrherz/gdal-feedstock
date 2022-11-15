@@ -31,7 +31,7 @@ EOF
 
 $PYTHON -m pip install --no-deps --ignore-installed . \
         --config-settings="--global-option=build_ext" \
-        --config-settings="--global-option=\"-I$INCLUDE_PATH\"" \
-        --config-settings="--global-option=\"-L$LIBRARY_PATH\""
+        --config-settings="--build-option=\"-I$INCLUDE_PATH\"" \
+        --config-settings="--build-option=\"-L$LIBRARY_PATH\""
 
 popd
