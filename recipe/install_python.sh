@@ -26,12 +26,9 @@ cd swig/python
 cat >pyproject.toml <<EOF
 [build-system]
 requires = ["setuptools>=40.8.0", "wheel"]
-build-backend = "setuptools.build_meta:__legacy__"
+build-backend = "setuptools.build_meta"
 EOF
 
-$PYTHON -m pip install --no-deps --ignore-installed . \
-        --config-settings="--global-option=build_ext" \
-        --config-settings="--build-option=\"-I$INCLUDE_PATH\"" \
-        --config-settings="--build-option=\"-L$LIBRARY_PATH\""
+$PYTHON -m pip install --no-deps --ignore-installed .
 
 popd
