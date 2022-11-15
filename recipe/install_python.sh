@@ -29,6 +29,8 @@ requires = ["setuptools>=40.8.0", "wheel"]
 build-backend = "setuptools.build_meta"
 EOF
 
+cmake --build . --target python_wheel
+
 $PYTHON -m pip install --no-deps --ignore-installed .
 
 popd
