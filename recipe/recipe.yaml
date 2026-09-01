@@ -19,7 +19,7 @@ source:
     - kealib20.patch
 
 build:
-  number: 0
+  number: 1
 
 outputs:
   - staging:
@@ -505,6 +505,8 @@ outputs:
       run:
         - ${{ pin_subpackage('libgdal-core', exact=True) }}
         - libgdal-hdf5 ${{ version }}.*
+        # make a runtime dependency so people can rebuild this plugin if needed
+        - highfive
     tests:
       - script:
           env:
